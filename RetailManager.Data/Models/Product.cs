@@ -19,6 +19,6 @@ namespace RetailManager.Data.Models
         public decimal Price { get; set; }
         public DateTime DateModified { get; set; }
         public ICollection<Review> Reviews { get; set; }
-        public ICollection<Tag> Tags { get; set; }
+        public ICollection<ProductTag> ProductTags { get; set; }
     }
 }

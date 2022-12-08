@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RetailManager.API.Services;
-using RetailManager.Data.Models;
+using RetailManager.Data.DTOs;
 
 namespace RetailManager.API.Controllers
 {
@@ -19,7 +19,7 @@ namespace RetailManager.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Product>> Get()
+        public async Task<IEnumerable<ProductDto>> Get()
         {
             return await _productService.GetAll();
         }

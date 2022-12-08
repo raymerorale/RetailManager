@@ -22,21 +22,6 @@ namespace RetailManager.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ProductTag", b =>
-                {
-                    b.Property<int>("ProductsProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TagsTagId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductsProductId", "TagsTagId");
-
-                    b.HasIndex("TagsTagId");
-
-                    b.ToTable("ProductTag");
-                });
-
             modelBuilder.Entity("RetailManager.Data.Models.Product", b =>
                 {
                     b.Property<int>("ProductId")
@@ -63,7 +48,22 @@ namespace RetailManager.Data.Migrations
 
                     b.HasKey("ProductId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
+                });
+
+            modelBuilder.Entity("RetailManager.Data.Models.ProductTag", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("ProductTags", (string)null);
                 });
 
             modelBuilder.Entity("RetailManager.Data.Models.Review", b =>
@@ -95,7 +95,7 @@ namespace RetailManager.Data.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("RetailManager.Data.Models.Tag", b =>
@@ -112,22 +112,26 @@ namespace RetailManager.Data.Migrations
 
                     b.HasKey("TagId");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tags", (string)null);
                 });
 
-            modelBuilder.Entity("ProductTag", b =>
+            modelBuilder.Entity("RetailManager.Data.Models.ProductTag", b =>
                 {
-                    b.HasOne("RetailManager.Data.Models.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsProductId")
+                    b.HasOne("RetailManager.Data.Models.Product", "Product")
+                        .WithMany("Tags")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RetailManager.Data.Models.Tag", null)
-                        .WithMany()
-                        .HasForeignKey("TagsTagId")
+                    b.HasOne("RetailManager.Data.Models.Tag", "Tag")
+                        .WithMany("Products")
+                        .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Tag");
                 });
 
             modelBuilder.Entity("RetailManager.Data.Models.Review", b =>
@@ -142,6 +146,13 @@ namespace RetailManager.Data.Migrations
             modelBuilder.Entity("RetailManager.Data.Models.Product", b =>
                 {
                     b.Navigation("Reviews");
+
+                    b.Navigation("Tags");
+                });
+
+            modelBuilder.Entity("RetailManager.Data.Models.Tag", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }
